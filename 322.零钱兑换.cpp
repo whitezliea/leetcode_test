@@ -32,6 +32,8 @@ public:
         return res == 99999 ? -1 :res;
     }
 */
+
+/*
 //解法2：带备忘录的自顶向下递归解法
     int coinChange(vector<int>& coins, int amount) {
         int *memo = new int[amount+1]{0};
@@ -69,8 +71,34 @@ public:
         memo[amount] = (res==99999)?-1:res;
         return memo[amount];
     }
+*/
 
+//解法3：自底向上的迭代解法
+    int coinChange(vector<int>& coins, int amount) {
+        int *dp = new int[amount+1]{0};
+        for (int i=0;i<=amount;i++)
+        //dp数组全都初始化为特殊值amount+1
+            dp[i]=amount+1;
+        
+        //dp数组的定义：凑出总金额amont，至少需要dp[amount]枚金币
 
+        //base case
+        dp[0] = 0;
+        //外层 for 循环在遍历所有状态的所有值
+        for(int i = 0;i<amount+1;i++)
+            //内层for循环在求所有选择的最小值
+            for(vector<int>::iterator coin=coins.begin();coin!=coins.end();coin++)
+            {
+                //子问题无解，跳过
+                if(i-*coin<0)
+                    continue;
+                //状态转移,选择dp[i]与dp[i-*coin]中的最小值
+                dp[i] = dp[i]>dp[i-*coin]? dp[i-*coin]+1: dp[i];
+            }
+
+        //看金额amount能不能凑出来
+        return (dp[amount] == amount+1) ? -1 : dp[amount];
+   }
 
 };
 // @lc code=end
