@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=322 lang=cpp
- *
+ * 题型：动态规划
  * [322] 零钱兑换
  */
 #include<vector>
