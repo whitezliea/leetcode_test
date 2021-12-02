@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=114 lang=cpp
- *
+ * 题型：二叉树
  * [114] 二叉树展开为链表
  */
 

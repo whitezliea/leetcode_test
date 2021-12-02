@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=111 lang=cpp
- *
+ * 题型：二叉树
  * [111] 二叉树的最小深度
  */
 
@@ -114,7 +114,7 @@ public:
                     q.push(cur->right);
                 
             }
-            //这里增加步数
+            //这里增加深度
             depth++;
         }
         return depth;

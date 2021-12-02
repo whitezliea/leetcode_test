@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=654 lang=cpp
- *
+ * 题型：二叉树
  * [654] 最大二叉树
  */
 

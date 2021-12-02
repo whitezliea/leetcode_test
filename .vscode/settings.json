@@ -5,6 +5,8 @@
         "queue": "cpp",
         "xiosbase": "cpp",
         "string": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "set": "cpp",
+        "xtree": "cpp"
     }
 }
