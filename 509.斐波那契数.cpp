@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=509 lang=cpp
- * 题型：动态规划
+ * 题型： 动态规划
  * [509] 斐波那契数
  */
 

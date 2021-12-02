@@ -8,6 +8,8 @@ wt = [2, 1, 3]
 val = [4, 2, 3]
 
 output: 6
+
+题型：动态规划
 */
 #include<iostream>
 #include<stdio.h>

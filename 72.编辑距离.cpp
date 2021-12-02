@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=72 lang=cpp
- * 题型：动态规划
+ * 题型： 动态规划
  * [72] 编辑距离
  */
 #include<string>
