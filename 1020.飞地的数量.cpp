@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=1020 lang=cpp
- * 题型：DFS
+ * 题型： DFS
  * [1020] 飞地的数量
  */
 #include<vector>

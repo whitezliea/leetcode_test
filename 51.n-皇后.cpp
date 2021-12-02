@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=51 lang=cpp
- * 题型：回溯算法
+ * 题型： 回溯算法 DFS
  * [51] N 皇后
  */
 #include<vector>

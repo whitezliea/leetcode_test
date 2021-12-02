@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=1254 lang=cpp
- * 题型：DFS
+ * 题型： DFS
  * [1254] 统计封闭岛屿的数目
  */
 #include<vector>

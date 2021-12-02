@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=695 lang=cpp
- *
+ * 题型 DFS
  * [695] 岛屿的最大面积
  */
 

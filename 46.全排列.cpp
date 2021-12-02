@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=46 lang=cpp
- * 题型：回溯算法（DFS）
+ * 题型： 回溯算法（DFS）
  * [46] 全排列
  */
 #include<vector>

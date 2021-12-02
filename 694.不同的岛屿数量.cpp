@@ -80,3 +80,4 @@ int main()
             g2[i][j]=a2[i][j];
     cout<<s2.numDistinctIslands(g2)<<endl;
 }
+//题型：DFS

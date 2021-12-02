@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=200 lang=cpp
- * 题型：DFS
+ * 题型： DFS
  * [200] 岛屿数量
  */
 #include<vector>
