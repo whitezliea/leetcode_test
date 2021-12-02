@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=111 lang=cpp
- * 题型：二叉树
+ * 题型：BFS
  * [111] 二叉树的最小深度
  */
 

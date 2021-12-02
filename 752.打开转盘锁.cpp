@@ -1,6 +1,6 @@
 /*
  * @lc app=leetcode.cn id=752 lang=cpp
- * 题型：BFS
+ * 题型： BFS
  * [752] 打开转盘锁
  */
 
