@@ -120,12 +120,13 @@ void Backtrack(int sx, int sy)
             int nx = sx + dir[i][0];
             int ny = sy + dir[i][1];
             //cout << "have next " << nx << "," << ny << endl;
+            //将要连接的下一个积木未越界且未被访问时
             if (in(nx, ny)&&vis[nx][ny]==0)
             {
                 //cout << "ture next " << nx <<"," << ny << endl;
+                //两个积木可以被连接
                 if (isVaild(sx, sy, nx, ny))
                 {
-
                     maze[nx][ny].endstep = maze[sx][sy].endstep - 1;
                     cout << sx << " " << sy<<"->" << nx << " " << ny << " ";
                     cout <<" ed: " << maze[nx][ny].endstep << " type: "<<maze[nx][ny].type << endl;
@@ -135,7 +136,7 @@ void Backtrack(int sx, int sy)
                     //进行下一层回溯
                     Backtrack(nx, ny);
                     //撤销访问记录
-                    vis[sx][sy] = 0;
+                    vis[sx][sy] = 0; //这行代码加不加都行，这是DFS与回溯算法的区别
                 }
             }
         }
@@ -144,7 +145,7 @@ void Backtrack(int sx, int sy)
     return;
 }
 
-/* 本题不推荐DFS，因为要考虑相邻两根积木之间的连接性，不能暴力遍历
+/* 因为要考虑相邻两根积木之间的连接性，不能直接暴力遍历
 void DFS(int sx, int sy, int endstep)
 {
     //DFS结束条件
