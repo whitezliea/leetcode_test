@@ -198,6 +198,7 @@ void BFS(int sx,int sy)
                 //积木之间可以连接同时未被访问
                 if (isVaild(temp.x, temp.y, nx, ny) && vis[nx][ny] == 0)
                 {   
+                    //停止这个方向遍历的条件
                     if (temp.endstep == 0)
                         continue;
                     maze[nx][ny].x = nx;
