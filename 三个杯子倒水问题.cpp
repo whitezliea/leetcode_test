@@ -8,7 +8,6 @@ using namespace std;
 * --->how to get 4L water
 * 起始状态(8,0,0)
 * 终点状态(4,x,y),(x,4,y) 注4+x+y=8;
-* 如何表现状态该表 maze[8][0][0] ---> 三维空间迁移
 * 状态改变，六种
 * 大 ---> 中  -- 1
 * 大 ---> 小  -- 2
@@ -28,8 +27,6 @@ struct Node
 const int capsize[3] = { 8,5,3 };
 int find_num = 9999;
 int res = 0;
-int temp = 0;
-int INDEX = 0;
 int vis[50][50][50] = { 0 };
 
 
@@ -100,17 +97,18 @@ int Queue::getSize()
 	return size;
 }
 
-
+//核心代码，杯子source向destion倒水
 void pour(Node *a,int source ,int destion)
 {
 	//a向b倒水
 	int need = capsize[destion] - a->state[destion];
+    //当前a的水足够b所需要时 ，a减去需要的水，b增加需要的水（即装满）
 	if (need <= a->state[source])
 	{
 		a->state[destion] += need;
 		a->state[source] -= need;
 	}
-	else
+	else // 当前a的水不够b所需要时，将a中所有的水倒向b，a杯子清空
 	{
 		a->state[destion] += a->state[source];
 		a->state[source] = 0;
@@ -133,17 +131,21 @@ int BFS(Node a)
 	{
 		Node tempnode = q.getFront();
 		q.delQueue();
+        //剪枝操作
 		for (int i = 0; i < 3; i++)
 			if (tempnode.state[i] < 0||tempnode.state[i] > capsize[i])
 				continue;
+        //结束条件
 		for (int i = 0; i < 3; i++)
 			if (tempnode.state[i] == 4)
 				return tempnode.step;
 		//Node newNode;
+        //遍历三个杯子互相倒水的所有情况
 		for (int i = 0; i < 3; i++)
 		{
 			for (int j = 0; j < 3; j++)
 			{
+                //剪枝，去除不合理情况 ,source杯子水不为空，destion杯子不为满
 				if (i != j && tempnode.state[i] != 0 && tempnode.state[j] < capsize[j])
 				{
 
@@ -167,12 +169,18 @@ int main()
 {
 	int x=8, y=0, z=0;
 	//cin >> x>> y>> z;
-	//maze[x][y][z] = 1;
 	Node a;
 	a.state[0] = x,a.state[1]=y,a.state[2]=z;
 	a.step = 0;
-	// 
 	res = BFS(a);
 	cout << res << endl;
 	return 0;
 }
+/*
+ 刷题总结：
+ 1、首先是BFS与DFS的选择？
+ 有些时候BFS与DFS并不是都适用，要清楚DFS与BFS的使用范围
+ DFS/回溯算法 ---> 适用于遍历所有情况，穷举起点状态到终点状态可能会出现的所有可能性，类似二叉树的前中后序遍历
+ BFS   --->  适用于最短/最优路径的求解，常用于找出起点状态到终点状态的最短/最优路径，但是也可用于穷举遍历，类似二叉树的层次遍历
+ //穷举遍历时都要设置结束调教，否则会死循环。
+*/
