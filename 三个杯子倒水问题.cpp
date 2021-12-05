@@ -152,10 +152,12 @@ int BFS(Node a)
 					Node newNode = tempnode;
 					pour( &newNode,i, j); //深拷贝
 					newNode.step = tempnode.step + 1;
+                    //如果这种杯子状态没有出现过
 					if (vis[newNode.state[0]][newNode.state[1]][newNode.state[2]] == 0)
 					{
 						cout << "[" << tempnode.state[0] << tempnode.state[1] << tempnode.state[2] << "] -> "
 							<< "[" << newNode.state[0] << newNode.state[1] << newNode.state[2] << "] step:"<<newNode.step << endl;
+                        //设置这种杯子状态出现过
 						vis[newNode.state[0]][newNode.state[1]][newNode.state[2]] = 1;
 						q.addQueue(newNode);
 					}
@@ -183,4 +185,5 @@ int main()
  DFS/回溯算法 ---> 适用于遍历所有情况，穷举起点状态到终点状态可能会出现的所有可能性，类似二叉树的前中后序遍历
  BFS   --->  适用于最短/最优路径的求解，常用于找出起点状态到终点状态的最短/最优路径，但是也可用于穷举遍历，类似二叉树的层次遍历
  //穷举遍历时都要设置结束调教，否则会死循环。
+ 数组描述状态比字符描述状态方便遍历
 */
