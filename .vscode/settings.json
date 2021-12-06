@@ -8,6 +8,7 @@
         "ios": "cpp",
         "set": "cpp",
         "xtree": "cpp",
-        "istream": "cpp"
+        "istream": "cpp",
+        "iostream": "cpp"
     }
 }
