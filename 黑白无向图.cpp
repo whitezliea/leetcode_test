@@ -22,6 +22,16 @@ input:
 7 9 1 2 1 4 2 3 2 5 2 6 3 7 4 5 4 6 6 7 
 output:
 1 3 5 6 
+
+case 2
+1---2---3
+|  /|\ /
+| 5 | 7
+|/  |/
+4---6
+input 
+7 10
+1 2 1 4 2 3 2 5 2 6 2 7 3 7 4 5 4 6 6 7 
 */
 #include<iostream>
 #include<stdlib.h>
@@ -107,7 +117,8 @@ int main()
         cout<<endl;
     }
     //从节点1开始递归
-    cout<<"白色点编号为 ："<<endl;
     backtrack(1);
+    if (count == 0)
+        cout<<"-1"<<endl;
     cout<<endl;
 }
