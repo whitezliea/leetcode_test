@@ -8,135 +8,101 @@
 每个测试案例其实有至少两种情况，黑白一换也是符合要求的，都给过。
 无法按要求填满两色的案例输出-1
 */
-
+ // 参考资料：https://blog.csdn.net/qq_44766883/article/details/106760748
 /*
 case 1:
-input:
+
 1---2---3
 |  /|  /
 | 5 | 7
 |/  |/
 4---6
 v e
-6 9 1 2 1 4 2 3 2 5 2 6 3 7 4 5 4 6 6 7 
+input:
+7 9 1 2 1 4 2 3 2 5 2 6 3 7 4 5 4 6 6 7 
+output:
+1 3 5 6 2 4 7 2
 */
 #include<iostream>
 #include<stdlib.h>
+#include<vector>
 #include<malloc.h>
 using namespace std;
-int edge[100]={0};
-//int node[50]={0};
-//bool iswhite[50]={false};
-int v=0,e=0;
+
+int v=0;
+int e=0;
+int edge[50][50]={0};
+//int isWhite[50]={0};
+//存储各点的着色情况
+int used[50]={0};
+//记录着色方案数
 int count=0;
-struct Node
-{
-    int i =0;
-    bool iswhite = false;
-}node[50];
 
 
-#define Queue_MAXSIZE 20
-class Queue
+//判断当前作色点是否合法，k是递归层数，也是已经着色的节点索引
+bool isVaild(int k)
 {
-private:
-    struct Node data[Queue_MAXSIZE]; //存储数据
-    int front;//队首指针
-    int rear; //队尾指针
-    int size; //队列大小
-public:
-    Queue();
-    void addQueue(Node a);
-    Node delQueue();
-    Node getFront();
-    bool isFull();
-    bool isEmpty();
-    int getSize();
-};
-
-Queue::Queue()
-{
-    front = -1;
-    rear = -1;
-    size = 0;
-}
-
-void Queue::addQueue(Node a)
-{
-    if (isFull())
+    for (int i=1;i<k;i++)
     {
-        exit(-1);
+        //如果两点相同，并且周围点的着色相同，表示当前颜色选择不合法，结束判断
+        if (edge[k][i] == 1&& used[k]==used[i])
+            return false;
     }
-    rear++;
-    rear %= Queue_MAXSIZE;
-    size++;
-    data[rear] = a;
+    return true;
 }
-Node Queue::delQueue()
+
+void backtrack(int k)
 {
-    if (isEmpty())
+    //已经遍历完所有点数
+    if(k>v)
     {
-        exit(-1);
+       count += 1;
+       //cout<<"方法"<<count<<" :";
+       for (int i=1;i<=v;i++)
+       {
+           //输出白棋的的索引
+           if(used[i]==1)
+           {
+               cout<<i<<" ";
+           }
+       }
+       //cout<<endl;
+       return;
     }
-    front++;
-    front %= Queue_MAXSIZE;
-    size--;
-    return data[front];
-}
-
-Node Queue::getFront()
-{
-    int index = front + 1;
-    return data[index];
-}
-
-bool Queue::isFull()
-{
-    return size == Queue_MAXSIZE;
-}
-bool Queue::isEmpty()
-{
-    return size == 0;
-}
-int Queue::getSize()
-{
-    return size;
-}
-
-void BFS(Node a)
-{
-    Queue q;
-    a.iswhite = true;
-    q.addQueue(a);
-    while (!q.isEmpty())
+    else
     {
-        for (int )
+        for (int i=1;i<=2;i++)
+        {
+            used[k] = i;
+            //当前颜色选择合法
+            if (isVaild(k))
+                backtrack(k+1);
+            used[k] = 0;
+        }
     }
-    
+
 }
 
 int main()
 {
-    
     cin>>v>>e;
-    // int **edge = (int**)malloc(sizeof(int*)*e);
-    // for (int i=0;i<e;i++)
-    //     edge[i] = (int*)malloc(sizeof(int)*2);
-    // cout<<v<<e;
-    // int *p = (int *)malloc(sizeof(int*)*(e)/2);
-    // for(int i=0;i<e;i++)
-    //     for(int j=0;j<2;j++)
-    //         cin>>edge[i][j];
-
-    for (int i=0;i<e*2-1;i++)
-        cin>>edge[i];
-    for (int i =1;i<=v;i++)
+    int e1=0,e2=0;
+    for (int i=1;i<=e;i++)
     {
-        node[i].i=v;
-        node[i].iswhite = false;
+        cin>>e1>>e2;
+        //表示两点是连通的 ,无向图
+        edge[e1][e2]= edge[e2][e1] = 1;
     }
-    BFS(node[1]);
+
+    for (int i=1;i<=e;i++)
+    {
+        for (int j = 1; j <= e; j++)
+        {
+            cout<<edge[i][j]; 
+        }
+        cout<<endl;
+    }
+    //从节点1开始递归
+    backtrack(1);
     cout<<count<<endl;
-    cout<<endl;
-    return 0;
 }
