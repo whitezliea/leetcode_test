@@ -32,6 +32,8 @@ case 2
 input 
 7 10
 1 2 1 4 2 3 2 5 2 6 2 7 3 7 4 5 4 6 6 7 
+output 
+-1
 */
 #include<iostream>
 #include<stdlib.h>
