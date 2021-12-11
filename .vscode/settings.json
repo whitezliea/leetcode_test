@@ -9,6 +9,9 @@
         "set": "cpp",
         "xtree": "cpp",
         "istream": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "string_view": "cpp"
     }
 }
