@@ -16,10 +16,8 @@ Sample Output
 #include<malloc.h>
 using namespace std;
 char map[4][4]={'b'};
-int maxnums=16;
-int minipath=0;
-int step=0;
-int flag=false;
+const int inf =9999;
+int ans=inf;
 int dir[4][2]={
     {1,0},
     {-1,0},
@@ -69,29 +67,27 @@ void filp(char map[][4],int x,int y)
 void dfs(char map[][4],int x,int y,int dep)
 {
     //cout<<step<<endl;
-    // 搜索深度与步数相同时就回溯
-    if (step==dep)
-    {
-        if (isOK(map))
-            flag = true;
+
+
+    if (isOK(map))
+    {   
+        if(ans > dep)
+            ans = dep;
         return ;
     }
-    //如果已经满足条件就返回
-    if (flag||x==4)
+    
+    //条件溢出
+    if (y>=4||x>=4)
         return ;
+    int nx = (x+1)%4;
+    int ny = y+(x+1)/4;
     //选择翻转棋子
     filp(map,x,y);
     //进行下一状态的搜索
-    if (y<3)
-        dfs(map,x,y+1,dep+1);
-    else
-        dfs(map,x+1,0,dep+1);
+    dfs(map,nx,ny,dep+1);
     //在翻转一次棋子即选择不翻转棋子,也相当于回溯操作
-    filp(map,x,y);
-    if (y<3)
-        dfs(map,x,y+1,dep);
-    else
-        dfs(map,x+1,0,dep);
+    filp(map,nx,ny);
+    dfs(map,nx,ny,dep);
 
     return ;
     
@@ -102,16 +98,10 @@ int main()
         for(int j=0;j<4;j++)
             cin>>map[i][j];
     //对0-16的每个步长都进行搜索
-    for ( step = 0; step <= 16; step++)
-    {
-        dfs(map,0,0,0);
-        if (flag)
-            break; //如果成功了，该步长就是最小值
-    }
-    
+    dfs(map,0,0,0);
     //display(map);
-    if (flag)
-        cout<<step<<endl;
+    if (ans != inf)
+        cout<<ans<<endl;
     else
         cout<<"Impossible"<<endl;
     return 0;
