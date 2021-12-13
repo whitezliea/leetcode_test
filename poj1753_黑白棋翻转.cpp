@@ -66,28 +66,27 @@ void filp(char map[][4],int x,int y)
 
 void dfs(char map[][4],int x,int y,int dep)
 {
-    //cout<<step<<endl;
-
-
     if (isOK(map))
     {   
         if(ans > dep)
             ans = dep;
         return ;
     }
-    
     //条件溢出
     if (y>=4||x>=4)
         return ;
     int nx = (x+1)%4;
     int ny = y+(x+1)/4;
     //选择翻转棋子
-    filp(map,x,y);
-    //进行下一状态的搜索
-    dfs(map,nx,ny,dep+1);
-    //在翻转一次棋子即选择不翻转棋子,也相当于回溯操作
-    filp(map,nx,ny);
+    
+    //当前状态不反转棋子，进行下一状态的搜索
     dfs(map,nx,ny,dep);
+    //翻转棋子
+    filp(map,x,y);
+    //进入下层状态
+    dfs(map,nx,ny,dep+1);
+    //回溯操作
+    filp(map,x,y);
 
     return ;
     
@@ -106,3 +105,15 @@ int main()
         cout<<"Impossible"<<endl;
     return 0;
 }
+
+/*
+代码反思：
+对于本题，因为棋子有翻转或者不翻转的选择
+不翻转的情况下：
+    dfs(nx,ny,dep);直接进入下一层递归，步数也不增加，也无需做回溯操作
+翻转的情况下：
+    flip(nx,ny);  //翻转操作
+    dfs(nx,ny,dep+1); //进入下一层递归，需要回溯操作
+    filp(nx,ny);  //回溯操作
+DFS的思路就是遍历当前状态的所有情况并且进入下一层，然后递归返回后进行回溯操作。
+*/
