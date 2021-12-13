@@ -34,6 +34,12 @@ void DFS(int x, int y, int step, int dirs)
         cout << step << " ";
         return;
     }
+    int k = 0, pathnums = 0;;
+    for (; k < 4; k++)
+    {
+        if (maze[x + dir[k][0]][y + dir[k][1]] == '.'|| maze[x + dir[k][0]][y + dir[k][1]]=='E')
+            pathnums++;
+    }
     if (!flag)
     {
         for (int i = 0; i <= 3  ; i++)
@@ -47,7 +53,13 @@ void DFS(int x, int y, int step, int dirs)
                 if (my_abs(dirs, i) != 2)
                 {
                     cout << "方向：" << i << " ";
-                    cout << nx << " " << ny << endl;
+                    cout << nx << " " << ny <<" " << pathnums << endl;
+                    DFS(nx, ny, step + 1, i);
+                }
+                else if (pathnums == 1)
+                {
+                    cout << "方向：" << i << " ";
+                    cout << nx << " " << ny <<" "<<pathnums << endl;
                     DFS(nx, ny, step + 1, i);
                 }
 
@@ -67,10 +79,11 @@ int main()
             if (maze[i][j] == 'S')
                 sx = i, sy = j;
             if (maze[i][j] == 'E')
-                ex = i; ey = j;
+                ex = i, ey = j;
         }
     }
     flag = false;
+    cout << ex << " " << ey << endl;
     for (int i = 0; i < 4; i++)
         if (maze[sx + dir[i][0]][sy + dir[i][1]] == '.')
         {
