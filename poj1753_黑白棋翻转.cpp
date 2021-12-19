@@ -13,7 +13,7 @@ Sample Output
 */
 #include<iostream>
 #include<stdlib.h>
-#include<malloc.h>
+
 using namespace std;
 char map[4][4]={'b'};
 const int inf =9999;
