@@ -15,6 +15,10 @@ output: 6
 #include<stdio.h>
 using namespace std;
 
+int MATH_max(int n1,int n2)
+{
+    return n1>n2?n1:n2;
+}
 
 int knapsack(int W,int N,int wt[],int val[])
 {
@@ -27,7 +31,11 @@ int knapsack(int W,int N,int wt[],int val[])
     for (int i=0;i<N+1;i++)
         for(int j=0;j<W+1;j++)
             dp[i][j]=0;
-    
+    //base case
+    for (int i=0;i<N+1;i++)
+        dp[i][0] = 0;
+    for (int j=0;j<W+1;j++)
+        dp[0][j] = 0;
     //状态转移方程
     for(int i=1;i<=N;i++)
         for(int w=1;w<=W;w++)
@@ -36,9 +44,9 @@ int knapsack(int W,int N,int wt[],int val[])
                 dp[i][w]=dp[i-1][w];
             else 
                 //装入或者不装入背包，择优
-                dp[i][w] = dp[i-1][w-wt[i-1]]+val[i-1] > dp[i-1][w]? //求两者中的最大值
-                dp[i-1][w-wt[i-1]]+val[i-1] : //把第i个物品装入背包
-                dp[i-1][w];     //不把第i个物品装入背包
+                dp[i][w] = MATH_max(            //求两者中的最大值
+                dp[i-1][w-wt[i-1]]+val[i-1],    //把第i个物品装入背包
+                dp[i-1][w]);                    //不把第i个物品装入背包
     
     //返回最后终点状态值
     return dp[N][W];
