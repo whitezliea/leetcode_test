@@ -9,7 +9,7 @@
 using namespace std;
 class Solution {
 public:
-    //解法1：暴力破解
+    //解法1：动态规划
     int lengthOfLIS(vector<int>& nums) {
         //创建dp数组
         int *dp = new int[nums.size()];
