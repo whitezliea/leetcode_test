@@ -74,6 +74,10 @@ public:
 */
 
 //解法3：自底向上的迭代解法
+    int MATH_min(int n1,int n2)
+    {
+        return n1>n2?n2:n1;
+    }
     int coinChange(vector<int>& coins, int amount) {
         int *dp = new int[amount+1]{0};
         for (int i=0;i<=amount;i++)
@@ -87,13 +91,13 @@ public:
         //外层 for 循环在遍历所有状态的所有值
         for(int i = 0;i<amount+1;i++)
             //内层for循环在求所有选择的最小值
-            for(vector<int>::iterator coin=coins.begin();coin!=coins.end();coin++)
+            for(int j=0;j<coins.size();j++)
             {
                 //子问题无解，跳过
-                if(i-*coin<0)
+                if(i-coins[j]<0)
                     continue;
                 //状态转移,选择dp[i]与dp[i-*coin]中的最小值
-                dp[i] = dp[i]>dp[i-*coin]? dp[i-*coin]+1: dp[i];
+                dp[i] = MATH_min(dp[i],1+dp[i-coins[j]]);
             }
 
         //看金额amount能不能凑出来
