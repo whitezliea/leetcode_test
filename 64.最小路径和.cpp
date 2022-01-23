@@ -69,8 +69,8 @@ public:
         
     }
     int minPathSum(vector<vector<int>>& grid) {
-        //return dp(grid);
-        return DFS(grid,grid.size()-1,grid[0].size()-1);
+        return dp(grid);
+        //return DFS(grid,grid.size()-1,grid[0].size()-1);
     }
 };
 // @lc code=end
