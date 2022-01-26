@@ -68,10 +68,11 @@ public:
             for (int j=0;j<m;j++)
                 memo[i][j] = 0;
 
-        //return DFS(ring ,0, key ,0,memo);
-        return dp(ring,key);
+        return DFS(ring ,0, key ,0,memo);
+        //return dp(ring,key);
     }
 
+    /*
     //解法2：动态规划
     int dp(string ring ,string key)
     {
@@ -80,11 +81,11 @@ public:
 
         int **dp = new int *[n+1];
         for (int i=0;i<n+1;i++)
-              dp[i] = new int [m+1];
+            dp[i] = new int [m+1];
         
-         for(int i=0;i<n+1;i++)
-          for (int j=0;j<m+1;j++)
-                 dp[i][j] = 0;
+        for(int i=0;i<n+1;i++)
+            for (int j=0;j<m+1;j++)
+                dp[i][j] = 9999;
 
         //base case 
         for (int i=0;i<n+1;i++)
@@ -104,23 +105,23 @@ public:
                     //选择顺时针还是逆时针
                     step = MATH_min(step,n-step);
                     //break;
-                }
-                r = i;
+                    dp[i][j+1] =  dp[r][j] + step + 1;
+                    r = i; 
+                }  
             }
-            dp[0][j+1] =  dp[0][j] + step + 1;
-            
-         }
+        
+        }
         
         int res = 65535;
         for (int i=0;i<n+1;i++)
         {
-            if (dp[i][m]!=0)
-                res = MATH_min(res,dp[i][m]);
+            res = MATH_min(res,dp[i][m]);
         }
-
         return res;
 
     }
+    */
+    
 };
 // @lc code=end
 
