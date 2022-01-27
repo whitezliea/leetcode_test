@@ -72,7 +72,7 @@ public:
         //return dp(ring,key);
     }
 
-    /*
+    
     //解法2：动态规划
     int dp(string ring ,string key)
     {
@@ -91,24 +91,26 @@ public:
         for (int i=0;i<n+1;i++)
             dp[i][0] = 0;
         
-        int r=0; 
+        int pre_r=0; //每一轮寻找字符时,指针的初始位置(不一定为0)
         for (int j=0;j<key.size();j++)
          {   
             int step =0;
-            for (int i = 0 ;i<ring.size();i++)
+            int r = 0;
+            for ( r = 0 ;r<ring.size();r++)
             {
                 
-                if (ring[i]==key[j])
+                if (ring[r]==key[j])
                 {
-                    //从i到r需要的步数，拨动指针的次数
-                    step = MATH_abs(i,r);
+                    //从r到pre_r需要的步数，拨动指针的次数
+                    step = MATH_abs(r,pre_r);
                     //选择顺时针还是逆时针
                     step = MATH_min(step,n-step);
                     //break;
-                    dp[i][j+1] =  dp[r][j] + step + 1;
-                    r = i; 
+                    dp[r][j+1] = MATH_min(dp[r][j+1],dp[pre_r][j] + step + 1);
+                    
                 }  
             }
+            
         
         }
         
@@ -120,7 +122,7 @@ public:
         return res;
 
     }
-    */
+    
     
 };
 // @lc code=end
