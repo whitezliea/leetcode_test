@@ -69,10 +69,10 @@ public:
                 memo[i][j] = 0;
 
         return DFS(ring ,0, key ,0,memo);
-        //return dp(ring,key);
+      
     }
 
-    
+    /*
     //解法2：动态规划
     int dp(string ring ,string key)
     {
@@ -85,7 +85,7 @@ public:
         
         for(int i=0;i<n+1;i++)
             for (int j=0;j<m+1;j++)
-                dp[i][j] = 9999;
+                dp[i][j] = 65335;
 
         //base case 
         for (int i=0;i<n+1;i++)
@@ -110,6 +110,7 @@ public:
                     
                 }  
             }
+            pre_r = r;
             
         
         }
@@ -120,8 +121,9 @@ public:
             res = MATH_min(res,dp[i][m]);
         }
         return res;
-
+        
     }
+    */
     
     
 };
@@ -130,4 +132,5 @@ public:
 /*
 "godding"
 "godding"
+目前动态规划的难点是如何记录转盘上一次转到的指向
 */
