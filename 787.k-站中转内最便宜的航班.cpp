@@ -7,6 +7,69 @@
 // @lc code=start
 #include<vector>
 using namespace std;
+#define MAXSIZE 500
+struct Node
+{
+    int id; //当前节点的id
+    int costFromsrc;    //从src节点到当前节点的花费
+    int nodeNumFromSrc; //从 src 节点到当前节点个数
+};
+
+class Queue
+{
+public:
+    Node data[MAXSIZE];
+    int rear;
+    int front;
+    int size;
+public:
+    Queue()
+    {
+        rear = -1;
+        front = -1;
+        size = 0;
+    }
+    void addNode(Node a)
+    {
+        if (isFull())
+            return ;
+        rear ++ ;
+        rear %= MAXSIZE;
+        data[rear] = a;
+        size ++; 
+    }
+    void delNode()
+    {
+        if (isEmpty())
+            return ;
+        front++;
+        front %= MAXSIZE;
+        size --;
+    }
+    Node getFront()
+    {
+        int index = front+1;
+        return data[index];
+    }
+    bool isFull()
+    {
+        return size == MAXSIZE;
+    }
+    int getSize()
+    {
+        return size;
+    }
+    void sort()
+    {
+
+    }
+    bool isEmpty()
+    {
+        return size == 0;
+    }
+};
+
+
 class Solution {
     //flights[i] = [fromi, toi, pricei]
 public:
@@ -14,12 +77,106 @@ public:
     {
         return n1>n2?n2:n1;
     }
-    //解法1：Dijkstra算法---》BFS改良
-    
-    /*
-    //解法2：动态规划/暴力回溯/带备忘录的回溯算法
+    //解法1：Dijkstra算法 ---> BFS改良
+    int dijk_mindistance(vector<vector<int>>& flights,int cur_ID)
+    {
+        int cur_index=0,min_cost = 65535;
+        int n1 = flights.size();
+        for (int i=0;i<n1;i++)
+        {
+            if (flights[i][0] == cur_ID && min_cost>flights[i][2])
+            {
+                cur_index = i;
+                min_cost = flights[i][2];
+            }
+        }
+        return cur_index;
+    }
+    int dijkstra(int N, vector<vector<int>>& flights, int src, int dst, int K_dij)
+    {
+        int n1 = flights.size();
+        //定义：从起点 src 到节点i的最短路径权重为distTo[i]  ---.确定旅行费用
+        int *distTo = new int[N];
+        for (int i = 0;i<N;i++)
+            distTo[i] = 65535;
+        
+        //定义：从起点 src 到达节点i至少需要经过 nodeNumTo[i] 个节点    ----> 确定飞机路线数
+        int  *nodeNumTo = new int [N];
+        for (int i=0;i<N;i++)
+            nodeNumTo[i] = 65535;
 
-    int dp(vector<vector<int>>& flights,int src, int s,int k,int **memo)
+        //base case
+        distTo[src] = 0;
+        nodeNumTo[src] = 0;
+        
+        //优先级队列
+        Node start;
+        start.id = src, start.costFromsrc = 0, start.nodeNumFromSrc = 0;
+        Queue q;
+        q.addNode(start);
+
+        while (!q.isFull())
+        {  
+           Node current_state = q.getFront();
+           q.delNode();
+           int cur_NodeId = current_state.id;
+           int cur_costFromSrc = current_state.costFromsrc;
+           int cur_NodeNumFromSrc = current_state.nodeNumFromSrc;
+
+            if(cur_NodeId == dst)
+            {
+                //找到最短路径
+                return cur_costFromSrc;
+            }
+            if (cur_NodeNumFromSrc == K_dij)
+            {
+                //中转次数耗尽
+                continue;
+            }  
+
+            //将curNode 的相邻节点装入队列
+
+            // formi == cur_NodeId,邻接表
+            int cur_next_id = dijk_mindistance(flights,cur_NodeId);
+            int nextNodeID = flights[cur_next_id][1];
+            int costToNextNode = cur_costFromSrc + flights[cur_next_id][2];
+            //中转次数消耗1
+            int nextNodeNumFromSrc = cur_NodeNumFromSrc + 1;
+
+            //更新队列
+            if(distTo[nextNodeID] > costToNextNode)
+            {
+                distTo[nextNodeID] = costToNextNode;
+                nodeNumTo[nextNodeID] = nextNodeNumFromSrc;
+            }
+
+            //剪枝，如果中转次数更多，花费更大，那必然不是最短路径
+            if(costToNextNode > distTo[nextNodeID]
+                && nextNodeNumFromSrc > nodeNumTo[nextNodeID])
+                {
+                    continue;
+                }
+            
+            Node next_state;
+            next_state.id = nextNodeID;
+            next_state.costFromsrc = costToNextNode;
+            next_state.nodeNumFromSrc = nextNodeNumFromSrc;
+
+            q.addNode(next_state);
+                
+        }
+        
+        
+        return -1;
+
+    }
+
+    
+    
+    //解法2：动态规划/暴力回溯/带备忘录的回溯算法
+    //此算法是从dst---->src 反推。
+    //s为当前目的地，k为剩余飞机路线数
+    int dp_memo(vector<vector<int>>& flights,int src, int s,int k,int **memo)
     {
         int n1 = flights.size();
         int n2 = flights[0].size();
@@ -32,13 +189,13 @@ public:
             return memo[s][k];
         
         int res = 65535;
-        for (int i = 0;i<n1;i++)
+        for (int i = 0;i<n1;i++) //遍历flight函数，找到to是dst的数组
         {
             if (flights[i][1]==s)
             {
                 int from = flights[i][0];
                 int price = flights[i][2];
-                int SubProblem = dp(flights,src,from,k-1,memo);
+                int SubProblem = dp_memo(flights,src,from,k-1,memo);
                 if (SubProblem != -1)
                 {
                     res = MATH_min(res,SubProblem+price);
@@ -50,24 +207,7 @@ public:
         return memo[s][k];
 
     }
-    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        int n1 = flights.size();
-        int n2 = flights[0].size();
-        
-        //经历过k个城市会经过k+1步路
-        k++;
-        int **memo = new int*[n];
-        for (int i=0;i<n;i++)
-            memo[i] = new int[k+1];
-        for (int i=0;i<n;i++)
-            for(int j=0;j<k+1;j++)
-                memo[i][j] = -888;
-        
-        return dp(flights,src,dst,k,memo);
-    }
-    */
     
-    /*
     //二维DP
     int dp(int n, vector<vector<int>>& flights, int src, int dst, int k)
     {
@@ -105,16 +245,12 @@ public:
             res = MATH_min(res,dp[t][dst]);
         }
 
-        return (res ==65535 ?-1: res);
+        return (res == 65535 ?-1: res);
         
     }
-    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        return dp(n,flights,src,dst,k);
-    }
-    */
+
 
     //bellman ford算法
-    //如何实现
     void array_copy(int *dist,int *clone,int N)
     {
         for (int i=0;i<N;i++)
@@ -123,6 +259,7 @@ public:
         }
         return ;
     }
+    //N是地图有多少个点，与flight.size()关系不是很大
     int bellman_ford(int N, vector<vector<int>>& flights, int src, int dst, int k)
     {
         int INF = 65535;
@@ -147,7 +284,7 @@ public:
         dist[src] = 0;
         //k是最多可经过的中转站，k+1是需搭乘的飞机次数
         //限制最多不超过k+1条边，但是注意本题中n1才是总的边数，且 k+1 < n1;
-        int K = k+1; //K <= n1;
+        int K = k+1; //我们应该注意到 K <= n1;
         //bellman ford算法，但是不是完整的bellman ford，不需要进行n1-1次循环
         for (int limit = 0;limit<K;limit++)  
         {
@@ -170,8 +307,30 @@ public:
         //判断是否有answer，不一定是ans == INF ,因为会大于或者小于的情况。
         return ans > INF / 2 ? -1 : ans; 
     }
+
+
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
-        return bellman_ford(n,flights,src,dst, k);
+        int n1 = flights.size();
+        int n2 = flights[0].size();
+        //memo
+        int K_memo = k;
+        //经历过k个城市会经过k+1步路
+        K_memo++;
+        int **memo = new int*[n];
+        for (int i=0;i<n;i++)
+            memo[i] = new int[K_memo+1];
+        for (int i=0;i<n;i++)
+            for(int j=0;j<K_memo+1;j++)
+                memo[i][j] = -888;
+        //memo
+        //dijk
+        int K_dij = k+1; 
+        //dijk
+
+        //return dp_memo(flights,src,dst,K_memo,memo);  //带备忘录的暴力递归算法
+        //return dp(n,flights,src,dst,k);               //动态规划算法
+        //return bellman_ford(n,flights,src,dst, k); //bellman ford算法
+        return dijkstra(n,flights,src,dst,K_dij);                          //dijkstra算法
     }
 
 };
