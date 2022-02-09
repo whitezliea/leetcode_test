@@ -382,7 +382,7 @@ public:
         //return bellman_ford(n,flights,src,dst, k); //bellman ford算法
         //return dijkstra(n,flights,src,dst,K_dij);      //带约束的单源最短路径问题   //dijkstra算法
                                                          //BFS+优先级队列优化(需要用到priority_queue)
-        return BFS(n,flights,src,dst,K_BFS);
+        return BFS(n,flights,src,dst,K_BFS);  //BFS+剪枝操作
     }
 
 };
