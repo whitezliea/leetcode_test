@@ -75,15 +75,38 @@ int main()
 {
     /* Let us create the example graph discussed above */
     //邻接矩阵
-    int graph[V][V] = { { INF, 4, INF, INF, INF, INF, INF, 8, INF },
-                        { 4, INF, 8, INF, INF, INF, INF, 11, INF },
-                        { INF, 8, INF, 7, INF, 4, INF, INF, 2 },
-                        { INF, INF, 7, INF, 9, 14, INF, INF, INF },
-                        { INF, INF, INF, 9, INF, 10, INF, INF, INF },
-                        { INF, INF, 4, 14, 10, INF, 2, INF, INF },
-                        { INF, INF, INF, INF, INF, 2, INF, 1, 6 },
-                        { 8, 11, INF, INF, INF, INF, 1, INF, 7 },
-                        { INF, INF, 2, INF, INF, INF, 6, 7, INF } };
+    int graph[V][V] = { { 0, 4, INF, INF, INF, INF, INF, 8, INF },
+                        { 4, 0, 8, INF, INF, INF, INF, 11, INF },
+                        { INF, 8, 0, 7, INF, 4, INF, INF, 2 },
+                        { INF, INF, 7, 0, 9, 14, INF, INF, INF },
+                        { INF, INF, INF, 9, 0, 10, INF, INF, INF },
+                        { INF, INF, 4, 14, 10, 0, 2, INF, INF },
+                        { INF, INF, INF, INF, INF, 2, 0, 1, 6 },
+                        { 8, 11, INF, INF, INF, INF, 1, 0, 7 },
+                        { INF, INF, 2, INF, INF, INF, 6, 7, 0 } };
     dijkstra(graph, 0);
     return 0;
 }
+
+/*
+i to src dist
+0        0
+1        4
+2        12
+3        19
+4        21
+5        11
+6        9
+7        8
+8        14
+i to src path
+0        0
+1        0
+2        1
+3        2
+4        5
+5        6
+6        7
+7        0
+8        2
+*/
