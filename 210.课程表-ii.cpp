@@ -20,8 +20,8 @@ public:
         map.resize(numCourses);
         for (int i=0;i<prerequisites.size();i++)
         {
-            int from = prerequisites[i][0];
-            int to = prerequisites[i][1];
+            int from = prerequisites[i][1];
+            int to = prerequisites[i][0];
             map[from].push_back(to);
         }
 
@@ -71,7 +71,7 @@ public:
         }
 
         //// 逆后序遍历结果即为拓扑排序结果
-        //reverse(potser.begin(),potser.end());
+        reverse(potser.begin(),potser.end());
         vector<int> res;
         res.reserve(numCourses);
         //如果没有环，就输出序列
