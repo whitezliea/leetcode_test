@@ -12,6 +12,9 @@
         "iostream": "cpp",
         "array": "cpp",
         "deque": "cpp",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "*.tcc": "cpp"
     }
 }
