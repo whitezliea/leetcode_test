@@ -64,6 +64,7 @@ public:
         }
         //构建邻接表
         bulidmap(numCourses,prerequisites);
+        //回溯算法
         for (int i=0;i<numCourses;i++)
         {
             dfs(i,onPath,visited);
