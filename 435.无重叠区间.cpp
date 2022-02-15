@@ -10,7 +10,8 @@
 using namespace std;
     bool cmp1(const vector<int> &a, const vector<int> &b)
     {
-	    return a[0] > b[0];
+	    return a[1] < b[1];
+        //return a.back()<b.back();
     }
 
 class Solution {
