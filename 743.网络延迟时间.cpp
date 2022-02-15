@@ -67,11 +67,10 @@ public:
 
 class Solution {
 public:
-    
-    void dijstar(vector<vector<int>>& times, int n, int src,int dist[])
+    /*解法1：优先级队列
+    void dijstar_pq(vector<vector<int>>& times, int n, int src,int dist[])
     {
   
-
         Node s;
         s.id = src;
         s.cost = 0;
@@ -121,7 +120,7 @@ public:
         {
             dist[i] = INF;
         }
-        dijstar(times,n,k,dist);
+        dijstar_pq(times,n,k,dist);
         int res=0;
         for (int i=1;i<=n;i++)
         {
@@ -131,6 +130,81 @@ public:
         }
 
         return res;
+    }
+    */
+    int dijkstar(vector<vector<int>>& times, int n, int src,int **map)
+    {
+        bool *vis = new bool[n+1];
+        int *dist = new int [n+1];
+        for (int i=0;i<=n;i++)
+        {
+            dist[i] = INF;
+            vis[i] = false;
+        }
+       
+        for (int i=1;i<=n;i++)
+        {
+            dist[i] = map[src][i];
+        }
+        //base case
+        dist[src] = 0;
+        vis[src] = true;
+
+        for (int i=0;i<n-1;i++)
+        {
+            int MINdist = INF;
+            int next = 0;
+            for (int j=1;j<=n;j++)
+            {
+                if (vis[j]==false&&dist[j] < MINdist)
+                {
+                    MINdist = dist[j];
+                    next = j;
+                }
+            }
+            vis[next] = true;
+            for (int k=1;k<=n;k++)
+            {
+                if (vis[k]==false)
+                {
+                    if (map[next][k] < INF && 
+                    dist[k] > dist[next] + map[next][k])
+                    {
+                        dist[k] = dist[next]+ map[next][k];
+                    }
+                }
+            }
+
+        }
+        int res = 0;
+        for (int i=1;i<=n;i++)
+        {
+            if (dist[i]==INF)
+                return -1;
+            res = res > dist[i] ? res : dist[i];
+        }
+        return res;
+
+    }
+    int networkDelayTime(vector<vector<int>>& times, int n, int k) {
+        
+        int **map = new int*[n+1];
+        for (int i=0;i<=n;i++)
+        {
+            map[i] = new int [n+1];
+        }
+        for (int i=0;i<=n;i++)
+            for (int j=0;j<=n;j++)
+                map[i][j] = INF;
+        //转换成邻接表
+        for (int i=0;i<times.size();i++)
+        {
+            int from = times[i][0];
+            int to = times[i][1];
+            int weight = times[i][2];
+            map[from][to] = weight;
+        }
+        return dijkstar(times,n,k,map);
     }
 };
 // @lc code=end
