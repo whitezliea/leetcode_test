@@ -23,7 +23,7 @@ struct Node
 class Solution {
 public:
 
-    double dijkstar(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end, double dist[],double **maps)
+    double dijkstar_pq(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end, double dist[],double **maps)
     {
         Node src;
         src.id = start;
@@ -75,6 +75,48 @@ public:
 
         return 0.0;
     }
+
+    double dijkstar(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end, double dist[],double **maps)
+    {
+        int INF = -1;
+        bool *vis = new bool [n];
+        for (int i=0;i<n;i++)
+        {
+            vis[i] = false;
+            dist[i] = maps[start][i];
+        }
+        
+        //base case
+        dist[start] = 1.00;
+        vis[start] = true;
+
+        for (int i=0;i<n-1;i++)
+        {
+            double MAXdist = INF;
+            int next = 0;
+            for (int j=0;j<n;j++)
+            {
+                if (vis[j]==false&&dist[j]>MAXdist)
+                {
+                    MAXdist = dist[j];
+                    next = j;
+                }
+                vis[next] = true;
+                for (int k=0;k<n;k++)
+                {   
+                    if (vis[k]==false)
+                    {
+                        if (maps[next][k] > 0 
+                        && dist[k] < dist[next] * maps[next][k])
+                            dist[k] = dist[next] * maps[next][k];
+                    }
+                }
+            }
+        }
+        
+        double res = dist[end] > 0 ? dist[end]:0.00;
+        return res;
+    }
     double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
         //首先定义一个dist数组
         double* dist = new double[n];
@@ -111,6 +153,7 @@ public:
 
         //return 0.0;
         return dijkstar(n, edges, succProb, start, end, dist, maps);
+        return dijkstar_pq(n, edges, succProb, start, end, dist, maps);
     }
 };
 // @lc code=end
