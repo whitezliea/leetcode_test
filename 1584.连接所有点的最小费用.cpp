@@ -143,7 +143,7 @@ public:
         }
        // edge_sort(data,len);
         sort(edges.begin(),edges.end(),cmp1);
-        //执行Krukal算法
+        //执行Kruskal算法
         int mst = 0;
         UF uf(n);
         for (int i=0;i<len;i++)
