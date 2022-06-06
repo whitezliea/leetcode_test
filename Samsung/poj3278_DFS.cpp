@@ -56,5 +56,5 @@ int main()
     cin>>a>>b;
     DFS(a,0);
     cout<<minstep<<endl;
-    return ;
+    return 0;
 }
