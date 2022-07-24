@@ -30,13 +30,13 @@ void BubbleSort(int a[],int n)
 int partition(int a[],int s,int t)
 {
     int i=s, j =t;
-    int temp = a[i];
+    int temp = a[i];  //每次都拿a[]数组第一个数作为基准
     while (i<j)
     {
-        while (j>i&&a[j]>=temp)
+        while (j>i&&a[j]>=temp) //以temp为基准，找到一个temp右边小于temp的数
             j--;
         a[i] = a[j];
-        while (j>i&&a[i]<=temp)
+        while (j>i&&a[i]<=temp) //以temp为基准，找到一个temp左边大于temp的数
             i++;
         a[j] = a[i];
     }
