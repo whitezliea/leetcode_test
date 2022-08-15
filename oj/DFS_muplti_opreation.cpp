@@ -14,7 +14,7 @@ void dfs(int index,int left_value,int right_value)
         return;
     }
 
-    if (index == N -1)
+    if (index == N - 1)
     {
         return ;
     }
