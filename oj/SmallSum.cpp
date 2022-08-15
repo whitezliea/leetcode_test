@@ -20,6 +20,7 @@ int SmallSum(int a[],int n)
     return process_(a, 0, n-1);
 }
 
+//在a[L...R]既要排好序，也要求小和
 int process_(int a[],int L,int R)
 {
     if (L == R)
@@ -42,7 +43,7 @@ int merge(int a[], int L,int M, int R)
     while ( p1 <= M&& p2 <= R)
     {
         res += a[p1] < a[p2] ? (R-p2+1) * a[p1] : 0; //求小和问题的关键
-        help[i++] = a[p1] < a[p2] ? a[p1++]: a[p2++];
+        help[i++] = a[p1] < a[p2] ? a[p1++]: a[p2++]; //排序
     }
     while ( p1 <= M)
     {

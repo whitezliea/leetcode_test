@@ -12,9 +12,9 @@ void display(int a[],int n)
 //1.冒泡算法
 void BubbleSort(int a[],int n)
 {
-    for (int i=0;i<n-1;i++)
+    for (int i=0;i<n-1;i++)  //flag
     {
-        for (int j=n-1;j>i;j--)
+        for (int j=n-1;j>i;j--) //交换n-1-flag次
         {
             if (a[j] < a[j-1])
             {
@@ -33,6 +33,14 @@ int partition(int a[],int s,int t)
     int temp = a[i];  //每次都拿a[]数组第一个数作为基准
     while (i<j)
     {
+        /*
+         a b c d e f g ...
+         |           |
+        基准         右区间j
+         |
+         左区间i 
+
+        */
         while (j>i&&a[j]>=temp) //以temp为基准，找到一个temp右边小于temp的数
             j--;
         a[i] = a[j];
