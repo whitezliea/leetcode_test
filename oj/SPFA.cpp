@@ -6,7 +6,7 @@ using namespace std;
 // Graph is stored as vector of vector of pairs
 // first element of pair store vertex
 // second element of pair store weight
-vector<vector<pair<int, int> >> graph;
+vector<vector<pair<int, int>>> graph;
 
 // Function to add edges in the graph
 // connecting a pair of vertex(frm) and weight
@@ -14,16 +14,17 @@ vector<vector<pair<int, int> >> graph;
 void addEdge(int frm, int to, int weight)
 {
 
-	graph[frm].push_back({ to, weight });
+	graph[frm].push_back({to, weight});
 }
 
 // Function to print shortest distance from source
 void print_distance(int d[], int V)
 {
 	cout << "Vertex \t\t Distance"
-		<< " from source" << endl;
+		 << " from source" << endl;
 
-	for (int i = 1; i <= V; i++) {
+	for (int i = 1; i <= V; i++)
+	{
 		cout << i << "			 " << d[i] << '\n';
 	}
 }
@@ -36,11 +37,12 @@ void shortestPathFaster(int S, int V)
 
 	// Boolean array to check if vertex
 	// is present in queue or not
-	bool inQueue[V + 1] = { false };
+	bool inQueue[V + 1] = {false};
 
 	// Initialize the distance from source to
 	// other vertex as INT_MAX(infinite)
-	for (int i = 0; i <= V; i++) {
+	for (int i = 0; i <= V; i++)
+	{
 		d[i] = INT_MAX;
 	}
 	d[S] = 0;
@@ -49,7 +51,8 @@ void shortestPathFaster(int S, int V)
 	q.push(S);
 	inQueue[S] = true;
 
-	while (!q.empty()) {
+	while (!q.empty())
+	{
 
 		// Take the front vertex from Queue
 		int u = q.front();
@@ -58,17 +61,20 @@ void shortestPathFaster(int S, int V)
 
 		// Relaxing all the adjacent edges of
 		// vertex taken from the Queue
-		for (int i = 0; i < graph[u].size(); i++) {
+		for (int i = 0; i < graph[u].size(); i++)
+		{
 
 			int v = graph[u][i].first;
 			int weight = graph[u][i].second;
 
-			if (d[v] > d[u] + weight) {
+			if (d[v] > d[u] + weight)
+			{
 				d[v] = d[u] + weight;
 
 				// Check if vertex v is in Queue or not
 				// if not then push it into the Queue
-				if (!inQueue[v]) {
+				if (!inQueue[v])
+				{
 					q.push(v);
 					inQueue[v] = true;
 				}
@@ -86,7 +92,7 @@ int main()
 	int V = 5;
 	int S = 1;
 
-	graph = vector<vector<pair<int,int>>> (V+1);
+	graph = vector<vector<pair<int, int>>>(V + 1);
 	// Connect vertex a to b with weight w
 	// addEdge(a, b, w)
 

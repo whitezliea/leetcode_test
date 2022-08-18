@@ -1,43 +1,42 @@
-#include<iostream>
-#include<stdio.h>
-#include<malloc.h>
+#include <iostream>
+#include <stdio.h>
+#include <malloc.h>
 using namespace std;
 // 题型 ：BFS
 /* 大      中  小
-* 8L(FULL) 5L 3L
-* --->how to get 4L water
-* 起始状态(8,0,0)
-* 终点状态(4,x,y),(x,4,y) 注4+x+y=8;
-* 状态改变，六种
-* 大 ---> 中  -- 1
-* 大 ---> 小  -- 2
-* 中 ---> 大  -- 3
-* 中 ---> 小  -- 4
-* 小 ---> 大  -- 5
-* 小 ---> 中  -- 6
-*/
+ * 8L(FULL) 5L 3L
+ * --->how to get 4L water
+ * 起始状态(8,0,0)
+ * 终点状态(4,x,y),(x,4,y) 注4+x+y=8;
+ * 状态改变，六种
+ * 大 ---> 中  -- 1
+ * 大 ---> 小  -- 2
+ * 中 ---> 大  -- 3
+ * 中 ---> 小  -- 4
+ * 小 ---> 大  -- 5
+ * 小 ---> 中  -- 6
+ */
 #define X 8
 #define Y 5
 #define Z 3
 struct Node
 {
 	int state[3];
-	int step=0;
+	int step = 0;
 };
-const int capsize[3] = { 8,5,3 };
+const int capsize[3] = {8, 5, 3};
 int find_num = 9999;
 int res = 0;
-int vis[50][50][50] = { 0 };
-
+int vis[50][50][50] = {0};
 
 #define Queue_MAXSIZE 1000
 class Queue
 {
 private:
 	struct Node data[Queue_MAXSIZE]; //存储数据
-	int front;//队首指针
-	int rear; //队尾指针
-	int size; //队列大小
+	int front;						 //队首指针
+	int rear;						 //队尾指针
+	int size;						 //队列大小
 public:
 	Queue();
 	void addQueue(Node a);
@@ -98,11 +97,11 @@ int Queue::getSize()
 }
 
 //核心代码，杯子source向destion倒水
-void pour(Node *a,int source ,int destion)
+void pour(Node *a, int source, int destion)
 {
-	//a向b倒水
+	// a向b倒水
 	int need = capsize[destion] - a->state[destion];
-    //当前a的水足够b所需要时 ，a减去需要的水，b增加需要的水（即装满）
+	//当前a的水足够b所需要时 ，a减去需要的水，b增加需要的水（即装满）
 	if (need <= a->state[source])
 	{
 		a->state[destion] += need;
@@ -131,33 +130,33 @@ int BFS(Node a)
 	{
 		Node tempnode = q.getFront();
 		q.delQueue();
-        //剪枝操作
+		//剪枝操作
 		for (int i = 0; i < 3; i++)
-			if (tempnode.state[i] < 0||tempnode.state[i] > capsize[i])
+			if (tempnode.state[i] < 0 || tempnode.state[i] > capsize[i])
 				continue;
-        //结束条件
+		//结束条件
 		for (int i = 0; i < 3; i++)
 			if (tempnode.state[i] == 4)
 				return tempnode.step;
-		//Node newNode;
-        //遍历三个杯子互相倒水的所有情况
+		// Node newNode;
+		//遍历三个杯子互相倒水的所有情况
 		for (int i = 0; i < 3; i++)
 		{
 			for (int j = 0; j < 3; j++)
 			{
-                //剪枝，去除不合理情况 ,source杯子水不为空，destion杯子不为满
+				//剪枝，去除不合理情况 ,source杯子水不为空，destion杯子不为满
 				if (i != j && tempnode.state[i] != 0 && tempnode.state[j] < capsize[j])
 				{
 
 					Node newNode = tempnode;
-					pour( &newNode,i, j); //深拷贝
+					pour(&newNode, i, j); //深拷贝
 					newNode.step = tempnode.step + 1;
-                    //如果这种杯子状态没有出现过
+					//如果这种杯子状态没有出现过
 					if (vis[newNode.state[0]][newNode.state[1]][newNode.state[2]] == 0)
 					{
 						cout << "[" << tempnode.state[0] << tempnode.state[1] << tempnode.state[2] << "] -> "
-							<< "[" << newNode.state[0] << newNode.state[1] << newNode.state[2] << "] step:"<<newNode.step << endl;
-                        //设置这种杯子状态出现过
+							 << "[" << newNode.state[0] << newNode.state[1] << newNode.state[2] << "] step:" << newNode.step << endl;
+						//设置这种杯子状态出现过
 						vis[newNode.state[0]][newNode.state[1]][newNode.state[2]] = 1;
 						q.addQueue(newNode);
 					}
@@ -169,10 +168,10 @@ int BFS(Node a)
 }
 int main()
 {
-	int x=8, y=0, z=0;
-	//cin >> x>> y>> z;
+	int x = 8, y = 0, z = 0;
+	// cin >> x>> y>> z;
 	Node a;
-	a.state[0] = x,a.state[1]=y,a.state[2]=z;
+	a.state[0] = x, a.state[1] = y, a.state[2] = z;
 	a.step = 0;
 	res = BFS(a);
 	cout << res << endl;

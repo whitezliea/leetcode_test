@@ -11,98 +11,95 @@ bwww
 Sample Output
 4
 */
-#include<iostream>
-#include<stdlib.h>
+#include <iostream>
+#include <stdlib.h>
 
 using namespace std;
-char map[4][4]={'b'};
-const int inf =9999;
-int ans=inf;
-int dir[4][2]={
-    {1,0},
-    {-1,0},
-    {0,1},
-    {0,-1}
-};
+char map[4][4] = {'b'};
+const int inf = 9999;
+int ans = inf;
+int dir[4][2] = {
+    {1, 0},
+    {-1, 0},
+    {0, 1},
+    {0, -1}};
 bool isOK(char map[][4])
 {
-    for (int i=0;i<4;i++)
-        for(int j=0;j<4;j++)
-            if(map[0][0]!=map[i][j])
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            if (map[0][0] != map[i][j])
                 return false;
     return true;
 }
 void display(char map[][4])
 {
-    for (int i=0;i<4;i++)
+    for (int i = 0; i < 4; i++)
     {
-        for(int j=0;j<4;j++)
-            cout<<map[i][j]<<" ";
-        cout<<endl;
+        for (int j = 0; j < 4; j++)
+            cout << map[i][j] << " ";
+        cout << endl;
     }
-
 }
-void filp(char map[][4],int x,int y)
+void filp(char map[][4], int x, int y)
 {
     //自己翻转
-    if (map[x][y]=='w')
-        map[x][y]='b';
-    else if(map[x][y]=='b')
-        map[x][y]='w';
+    if (map[x][y] == 'w')
+        map[x][y] = 'b';
+    else if (map[x][y] == 'b')
+        map[x][y] = 'w';
     //四周翻转
-    for (int i=0;i<4;i++)
+    for (int i = 0; i < 4; i++)
     {
-        int dx=x+dir[i][0];
-        int dy=y+dir[i][1];
-        if (dx>=0||dy>=0||dx<4||dy<4)
+        int dx = x + dir[i][0];
+        int dy = y + dir[i][1];
+        if (dx >= 0 || dy >= 0 || dx < 4 || dy < 4)
         {
-            if (map[dx][dy]=='w')
-                map[dx][dy]='b';
-            else if(map[dx][dy]=='b')
-                map[dx][dy]='w';
+            if (map[dx][dy] == 'w')
+                map[dx][dy] = 'b';
+            else if (map[dx][dy] == 'b')
+                map[dx][dy] = 'w';
         }
     }
 }
 
-void dfs(char map[][4],int x,int y,int dep)
+void dfs(char map[][4], int x, int y, int dep)
 {
     if (isOK(map))
-    {   
-        if(ans > dep)
+    {
+        if (ans > dep)
             ans = dep;
-        return ;
+        return;
     }
     //条件溢出
-    if (y>=4||x>=4)
-        return ;
-    int nx = (x+1)%4;
-    int ny = y+(x+1)/4;
+    if (y >= 4 || x >= 4)
+        return;
+    int nx = (x + 1) % 4;
+    int ny = y + (x + 1) / 4;
     //选择翻转棋子
-    
-    //当前状态不反转棋子，进行下一状态的搜索
-    dfs(map,nx,ny,dep);
-    //翻转棋子
-    filp(map,x,y);
-    //进入下层状态
-    dfs(map,nx,ny,dep+1);
-    //回溯操作
-    filp(map,x,y);
 
-    return ;
-    
+    //当前状态不反转棋子，进行下一状态的搜索
+    dfs(map, nx, ny, dep);
+    //翻转棋子
+    filp(map, x, y);
+    //进入下层状态
+    dfs(map, nx, ny, dep + 1);
+    //回溯操作
+    filp(map, x, y);
+
+    return;
 }
 int main()
 {
-    for (int i=0;i<4;i++)
-        for(int j=0;j<4;j++)
-            cin>>map[i][j];
+    for (int i = 0; i < 4; i++)
+        for (int j = 0; j < 4; j++)
+            cin >> map[i][j];
     //对0-16的每个步长都进行搜索
-    dfs(map,0,0,0);
-    //display(map);
+    dfs(map, 0, 0, 0);
+    // display(map);
     if (ans != inf)
-        cout<<ans<<endl;
+        cout << ans << endl;
     else
-        cout<<"Impossible"<<endl;
+        cout << "Impossible" << endl;
     return 0;
 }
 

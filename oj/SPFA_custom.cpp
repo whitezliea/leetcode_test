@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #define V 9
 #define INF 9999
 #define MAXSIZE 100
@@ -9,7 +9,6 @@ struct Node
     int id;
 };
 
-
 class Queue
 {
 private:
@@ -17,6 +16,7 @@ private:
     int rear;
     int front;
     int size;
+
 public:
     Queue()
     {
@@ -27,7 +27,7 @@ public:
     void add(Node a)
     {
         if (isFull())
-            return ;
+            return;
         rear++;
         rear %= MAXSIZE;
         size++;
@@ -35,15 +35,15 @@ public:
     }
     void del()
     {
-        if(isEmpty())
-            return ;
+        if (isEmpty())
+            return;
         front++;
         front %= MAXSIZE;
         size--;
     }
     Node getFront()
     {
-        int index = front+1;
+        int index = front + 1;
         return data[index];
     }
     int getSize()
@@ -60,16 +60,16 @@ public:
     }
 };
 
-void shortestPathFaster(int graph[V][V],int src)
+void shortestPathFaster(int graph[V][V], int src)
 {
-    int dist[V]; //i到各个点的距离
+    int dist[V];               // i到各个点的距离
     bool inQueue[V] = {false}; //各个点是否在队列中
-    //初始化 
-    for (int i =0;i<V;i++)
+    //初始化
+    for (int i = 0; i < V; i++)
     {
         dist[i] = INF;
     }
-    //base case
+    // base case
     dist[src] = 0;
 
     Queue q;
@@ -78,14 +78,14 @@ void shortestPathFaster(int graph[V][V],int src)
     q.add(start);
     inQueue[start.id] = true;
 
-    //BFS
+    // BFS
     while (!q.isEmpty())
     {
         Node temp = q.getFront();
         q.del();
         inQueue[temp.id] = false;
-        
-        for (int i = 0; i < V ; i++)
+
+        for (int i = 0; i < V; i++)
         {
             if (graph[temp.id][i] != INF && graph[temp.id][i] != 0)
             {
@@ -106,35 +106,33 @@ void shortestPathFaster(int graph[V][V],int src)
                 }
             }
         }
-
     }
 
     //输出dist
-    cout<<"i to src dist"<<endl;
-    for (int i=0;i<V;i++)
+    cout << "i to src dist" << endl;
+    for (int i = 0; i < V; i++)
     {
-        cout<<i<<"        "<<dist[i]<<endl;
+        cout << i << "        " << dist[i] << endl;
     }
 
-    return ;
-    
+    return;
 }
 
 int main()
 {
     /* Let us create the example graph discussed above */
     //邻接矩阵
-    int graph[V][V] = { { 0, 4, INF, INF, INF, INF, INF, 8, INF },
-                        { 4, 0, 8, INF, INF, INF, INF, 11, INF },
-                        { INF, 8, 0, 7, INF, 4, INF, INF, 2 },
-                        { INF, INF, 7, 0, 9, 14, INF, INF, INF },
-                        { INF, INF, INF, 9, 0, 10, INF, INF, INF },
-                        { INF, INF, 4, 14, 10, 0, 2, INF, INF },
-                        { INF, INF, INF, INF, INF, 2, 0, 1, 6 },
-                        { 8, 11, INF, INF, INF, INF, 1, 0, 7 },
-                        { INF, INF, 2, INF, INF, INF, 6, 7, 0 } };
+    int graph[V][V] = {{0, 4, INF, INF, INF, INF, INF, 8, INF},
+                       {4, 0, 8, INF, INF, INF, INF, 11, INF},
+                       {INF, 8, 0, 7, INF, 4, INF, INF, 2},
+                       {INF, INF, 7, 0, 9, 14, INF, INF, INF},
+                       {INF, INF, INF, 9, 0, 10, INF, INF, INF},
+                       {INF, INF, 4, 14, 10, 0, 2, INF, INF},
+                       {INF, INF, INF, INF, INF, 2, 0, 1, 6},
+                       {8, 11, INF, INF, INF, INF, 1, 0, 7},
+                       {INF, INF, 2, INF, INF, INF, 6, 7, 0}};
 
-    shortestPathFaster(graph,0);
+    shortestPathFaster(graph, 0);
     return 0;
 }
 /*

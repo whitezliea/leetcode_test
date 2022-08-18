@@ -41,45 +41,45 @@ input:
 output:
 10
 */
-#include<iostream>
-#include<stdio.h>
-#include<malloc.h>
+#include <iostream>
+#include <stdio.h>
+#include <malloc.h>
 using namespace std;
-//int map[50][100] = { 0 };
+// int map[50][100] = { 0 };
 int width = 0, height = 0;
 int find_num = 0;
 struct Node
 {
     int x = 0, y = 0;
-    int  endstep = 0, type = 0;
-}maze[50][100];
-int vis[50][100] = { 0 };
+    int endstep = 0, type = 0;
+} maze[50][100];
+int vis[50][100] = {0};
 int dir[4][2] = {
-    {0,1}, //向上
-    {0,-1}, //向下
-    {-1,0}, //向左
-    {1,0} //向右
+    {0, 1},  //向上
+    {0, -1}, //向下
+    {-1, 0}, //向左
+    {1, 0}   //向右
 };
 int vaild[7][4] = {
-    {1,-1,-1,1},  //上下左右 --type 1
-    {1,-1,0,0},   //上下   --type 2
-    {0,0,-1,1},  //左右    --type 3
-    {1,0,-1,0},  //下左  --type 4
-    {1,0,0,1} ,  //下右  --type 5
-    {0,-1,0,1},  //上右    --type 6
-    {0,-1,-1,0}   //上左   --type 7
+    {1, -1, -1, 1}, //上下左右 --type 1
+    {1, -1, 0, 0},  //上下   --type 2
+    {0, 0, -1, 1},  //左右    --type 3
+    {1, 0, -1, 0},  //下左  --type 4
+    {1, 0, 0, 1},   //下右  --type 5
+    {0, -1, 0, 1},  //上右    --type 6
+    {0, -1, -1, 0}  //上左   --type 7
 };
 //上下对x操作，左右对y操作
 
-//C++实现队列
+// C++实现队列
 #define Queue_MAXSIZE 20
 class Queue
 {
 private:
     struct Node data[Queue_MAXSIZE]; //存储数据
-    int front;//队首指针
-    int rear; //队尾指针
-    int size; //队列大小
+    int front;                       //队首指针
+    int rear;                        //队尾指针
+    int size;                        //队列大小
 public:
     Queue();
     void addQueue(Node a);
@@ -139,7 +139,6 @@ int Queue::getSize()
     return size;
 }
 
-
 bool my_abs(int x, int y)
 {
     return x == y ? true : false;
@@ -150,8 +149,8 @@ bool my_abs(int x, int y)
 */
 bool isVaild(int sx, int sy, int nx, int ny)
 {
-    //cout << sx << " " << sy << "->" << nx << " " << ny << ",";
-    //cout << maze[sx][sy].type - 1 << " " << maze[nx][ny].type - 1 << endl;
+    // cout << sx << " " << sy << "->" << nx << " " << ny << ",";
+    // cout << maze[sx][sy].type - 1 << " " << maze[nx][ny].type - 1 << endl;
     if (!my_abs(sx, nx))
     {
         for (int i1 = 0; i1 < 2; i1++)
@@ -172,12 +171,12 @@ bool isVaild(int sx, int sy, int nx, int ny)
 //判断当前节点是否合法
 bool in(int x, int y)
 {
-    if (x < 0 || y < 0 || x >= height || y >= width||maze[x][y].type == 0)
+    if (x < 0 || y < 0 || x >= height || y >= width || maze[x][y].type == 0)
         return false;
     return true;
 }
 
-void BFS(int sx,int sy)
+void BFS(int sx, int sy)
 {
     Queue q;
     maze[sx][sy].x = sx;
@@ -197,7 +196,7 @@ void BFS(int sx,int sy)
             {
                 //积木之间可以连接同时未被访问
                 if (isVaild(temp.x, temp.y, nx, ny) && vis[nx][ny] == 0)
-                {   
+                {
                     //停止这个方向遍历的条件
                     if (temp.endstep == 0)
                         continue;
@@ -225,12 +224,10 @@ int main()
         for (int j = 0; j < width; j++)
             cin >> maze[i][j].type;
 
-
     maze[sx][sy].endstep = endstep;
     cout << "help" << endl;
     BFS(sx, sy);
-    cout << find_num +1<< endl;//加1 是因为要加上起始点
-    
+    cout << find_num + 1 << endl; //加1 是因为要加上起始点
 }
 
 /*

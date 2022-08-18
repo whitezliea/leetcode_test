@@ -41,31 +41,31 @@ input:
 output:
 10
 */
-#include<iostream>
-#include<stdio.h>
-#include<malloc.h>
+#include <iostream>
+#include <stdio.h>
+#include <malloc.h>
 using namespace std;
-//int map[50][100] = { 0 };
+// int map[50][100] = { 0 };
 struct Node
 {
-    int  endstep=0, type=0;
-}maze[50][100];
-int vis[50][100] ={0};
+    int endstep = 0, type = 0;
+} maze[50][100];
+int vis[50][100] = {0};
 int find_num = 0;
 int dir[4][2] = {
-    {0,1}, //向上
-    {0,-1}, //向下
-    {-1,0}, //向左
-    {1,0} //向右
+    {0, 1},  //向上
+    {0, -1}, //向下
+    {-1, 0}, //向左
+    {1, 0}   //向右
 };
 int vaild[7][4] = {
-    {1,-1,-1,1},  //上下左右 --type 1
-    {1,-1,0,0},   //上下   --type 2
-    {0,0,-1,1},  //左右    --type 3
-    {1,0,-1,0},  //下左  --type 4
-    {1,0,0,1} ,  //下右  --type 5
-    {0,-1,0,1},  //上右    --type 6
-    {0,-1,-1,0}   //上左   --type 7
+    {1, -1, -1, 1}, //上下左右 --type 1
+    {1, -1, 0, 0},  //上下   --type 2
+    {0, 0, -1, 1},  //左右    --type 3
+    {1, 0, -1, 0},  //下左  --type 4
+    {1, 0, 0, 1},   //下右  --type 5
+    {0, -1, 0, 1},  //上右    --type 6
+    {0, -1, -1, 0}  //上左   --type 7
 };
 //上下对x操作，左右对y操作
 int width = 0, height = 0;
@@ -79,14 +79,14 @@ bool isVaild(int sx, int sy, int nx, int ny)
 {
     /*cout << sx << " " << sy << "->" << nx << " " << ny << ",";
     cout << maze[sx][sy].type - 1 <<" " << maze[nx][ny].type - 1 << endl;*/
-    if (!my_abs(sx , nx) )
+    if (!my_abs(sx, nx))
     {
-        for(int i1=0;i1<2;i1++)
-            for(int i2=0;i2<2;i2++)
+        for (int i1 = 0; i1 < 2; i1++)
+            for (int i2 = 0; i2 < 2; i2++)
                 if (sx + vaild[maze[sx][sy].type - 1][i1] == nx && nx + vaild[maze[nx][ny].type - 1][i2] == sx)
                     return true;
     }
-    if (!my_abs(sy , ny) )
+    if (!my_abs(sy, ny))
     {
         for (int j1 = 2; j1 < 4; j1++)
             for (int j2 = 2; j2 < 4; j2++)
@@ -100,17 +100,17 @@ bool in(int x, int y)
 {
     if (x < 0 || y < 0 || x >= height || y >= width || maze[x][y].type == 0)
     {
-        //cout << "false next " << x << "," << y << endl;
+        // cout << "false next " << x << "," << y << endl;
         return false;
     }
     return true;
 }
-//BFS解法
+// BFS解法
 
-//Backtrack解法 回溯算法
+// Backtrack解法 回溯算法
 void Backtrack(int sx, int sy)
-{   
-    //Backtrack 结束条件
+{
+    // Backtrack 结束条件
     if (maze[sx][sy].endstep == 0)
         return;
     if (in(sx, sy))
@@ -119,17 +119,17 @@ void Backtrack(int sx, int sy)
         {
             int nx = sx + dir[i][0];
             int ny = sy + dir[i][1];
-            //cout << "have next " << nx << "," << ny << endl;
+            // cout << "have next " << nx << "," << ny << endl;
             //将要连接的下一个积木未越界且未被访问时
-            if (in(nx, ny)&&vis[nx][ny]==0)
+            if (in(nx, ny) && vis[nx][ny] == 0)
             {
-                //cout << "ture next " << nx <<"," << ny << endl;
+                // cout << "ture next " << nx <<"," << ny << endl;
                 //两个积木可以被连接
                 if (isVaild(sx, sy, nx, ny))
                 {
                     maze[nx][ny].endstep = maze[sx][sy].endstep - 1;
-                    cout << sx << " " << sy<<"->" << nx << " " << ny << " ";
-                    cout <<" ed: " << maze[nx][ny].endstep << " type: "<<maze[nx][ny].type << endl;
+                    cout << sx << " " << sy << "->" << nx << " " << ny << " ";
+                    cout << " ed: " << maze[nx][ny].endstep << " type: " << maze[nx][ny].type << endl;
                     //(sx,sy)设置已访问
                     vis[sx][sy] = 1;
                     find_num++;
@@ -171,11 +171,11 @@ int main()
     cin >> height >> width >> sx >> sy >> endstep;
     for (int i = 0; i < height; i++)
         for (int j = 0; j < width; j++)
-            cin >> maze[i][j].type; 
-            //cout << i << " " << j<<" ";
-    //for (int i = 0; i < height; i++)
-    //    for (int j = 0; j < width; j++)
-    //        cout << maze[i][j].type<<" ";
+            cin >> maze[i][j].type;
+    // cout << i << " " << j<<" ";
+    // for (int i = 0; i < height; i++)
+    //     for (int j = 0; j < width; j++)
+    //         cout << maze[i][j].type<<" ";
 
     maze[sx][sy].endstep = endstep;
     cout << "help" << endl;
@@ -188,13 +188,13 @@ int main()
     //     for (int j = 0; j < width; j++)
     //         if(maze[i][j].type == -1)
     //             counts++;
-    //cout<<counts<<endl; 
+    // cout<<counts<<endl;
 }
 /*
 case 1:
 input :
 5 6 2 1 3
-0 4 0 5 3 4   
+0 4 0 5 3 4
 0 2 3 2 0 2
 3 1 3 1 3 7
 0 6 3 5 0 0
@@ -203,7 +203,7 @@ output :10
 
 case 2:
 input :
-6 7 4 2 4 
+6 7 4 2 4
 0 0 0 0 0 0 0
 0 3 2 0 0 0 0
 0 0 5 7 0 0 0

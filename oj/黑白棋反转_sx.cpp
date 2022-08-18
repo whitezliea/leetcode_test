@@ -11,36 +11,35 @@ input:
 1 1 0 0 1
 1 0 0 1 1
 1 0 0 1 1
-0 1 1 0 0 
+0 1 1 0 0
 output:
 2
 方法1：DFS
 */
 
-#include<iostream>
-#include<malloc.h>
-#include<stdlib.h>
+#include <iostream>
+#include <malloc.h>
+#include <stdlib.h>
 using namespace std;
-int height=0,width=0,filpnums=0;
-int maxPath=-1;
-
+int height = 0, width = 0, filpnums = 0;
+int maxPath = -1;
 
 //翻转棋盘列的函数
-void filp(int map[][50],int n)
+void filp(int map[][50], int n)
 {
-    for (int i=0;i<height;i++)
+    for (int i = 0; i < height; i++)
     {
-        if(map[i][n]==0)
-            map[i][n]=1;
-        else if(map[i][n]==1)
-            map[i][n]=0;
+        if (map[i][n] == 0)
+            map[i][n] = 1;
+        else if (map[i][n] == 1)
+            map[i][n] = 0;
     }
 }
-bool isBlack(int map[][50],int n)
+bool isBlack(int map[][50], int n)
 {
-    for (int i=0;i<width;i++)
+    for (int i = 0; i < width; i++)
     {
-        if (map[n][i]!=1)
+        if (map[n][i] != 1)
             return false;
     }
     return true;
@@ -48,10 +47,10 @@ bool isBlack(int map[][50],int n)
 //统计翻转棋盘后有多少路数
 int countPath(int map[][50])
 {
-    int count=0;
-    for (int i=0;i<height;i++)
+    int count = 0;
+    for (int i = 0; i < height; i++)
     {
-        if (isBlack(map,i))
+        if (isBlack(map, i))
             count++;
     }
     return count;
@@ -59,48 +58,47 @@ int countPath(int map[][50])
 
 void display(int map[][50])
 {
-    for (int i=0;i<height;i++)
-      {
-        for (int j=0;j<width;j++)
-            {
-                cout<<map[i][j]<<" ";
-            }
-        cout<<endl;
-      }
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            cout << map[i][j] << " ";
+        }
+        cout << endl;
+    }
 }
 
-void dfs(int map[][50],int k)
+void dfs(int map[][50], int k)
 {
-    if (k==filpnums+1)
+    if (k == filpnums + 1)
     {
-        return ;
+        return;
     }
-    for (int i=0;i<width;i++)
+    for (int i = 0; i < width; i++)
     {
         //做选择
-        filp(map,i);
-        maxPath = maxPath > countPath(map) ? maxPath :countPath(map);
+        filp(map, i);
+        maxPath = maxPath > countPath(map) ? maxPath : countPath(map);
         //递归进入下一层
-        dfs(map,k+1);
+        dfs(map, k + 1);
         //撤销选择
-        filp(map,i);
+        filp(map, i);
     }
-    return ;
+    return;
 }
-
 
 int main()
 {
-    int map[50][50]={0};
-    cin>>height>>width>>filpnums;
-    for (int i=0;i<height;i++)
-        for (int j=0;j<width;j++)
-            cin>>map[i][j];
-    dfs(map,1);
-    //filp(map,1);
-    cout<<endl;
+    int map[50][50] = {0};
+    cin >> height >> width >> filpnums;
+    for (int i = 0; i < height; i++)
+        for (int j = 0; j < width; j++)
+            cin >> map[i][j];
+    dfs(map, 1);
+    // filp(map,1);
+    cout << endl;
     display(map);
-    cout<<maxPath<<endl;
+    cout << maxPath << endl;
 }
 
 /*
@@ -110,19 +108,19 @@ input:
 1 1 0 0 1
 1 0 0 1 1
 1 0 0 1 1
-0 1 1 0 0 
+0 1 1 0 0
 output:
 2
 
 case 2:
 input :
 6 4 4
-0 1 1 0 
-1 0 0 0 
-1 1 0 1 
-1 1 0 1 
-1 1 0 1 
-0 1 0 1 
+0 1 1 0
+1 0 0 0
+1 1 0 1
+1 1 0 1
+1 1 0 1
+0 1 0 1
 output:
 3
 

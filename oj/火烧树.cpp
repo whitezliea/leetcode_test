@@ -1,7 +1,7 @@
 /*
 一个二维数组表示地图，0表示空地，1表示树，2表示火，
 火可以往上下左右四个方向蔓延一直烧树，遇到空地或边界会阻断，
-砍树可以把1变成0，最多可以砍2颗树，请问火灾之后最多可以剩下多少棵树？ 
+砍树可以把1变成0，最多可以砍2颗树，请问火灾之后最多可以剩下多少棵树？
 用dfs搜索能被火烧的树的位置，用bfs搜索砍哪些树后留下的树最多。
 example：
 8 8
@@ -18,28 +18,28 @@ output :
 ---------------
 砍完树之后的地图为
 BestMap:
-1 1 0 0 0 0 1 1 
-1 0 1 1 1 0 0 0 
-1 1 0 1 0 0 0 0 
-0 0 1 2 0 0 0 2 
-0 0 0 2 2 0 0 0 
-0 1 1 0 0 0 0 1 
-0 1 0 0 0 1 1 1 
+1 1 0 0 0 0 1 1
+1 0 1 1 1 0 0 0
+1 1 0 1 0 0 0 0
+0 0 1 2 0 0 0 2
+0 0 0 2 2 0 0 0
+0 1 1 0 0 0 0 1
+0 1 0 0 0 1 1 1
 1 1 1 1 0 0 0 1
 */
 
-#include<iostream>
-#include<malloc.h>
-#include<stdlib.h>
+#include <iostream>
+#include <malloc.h>
+#include <stdlib.h>
 using namespace std;
 int width = 0, height = 0;
 #define MaxSize 200
 //被烧的树的坐标
-int canBrun[50][2] = { 0 };
+int canBrun[50][2] = {0};
 //被烧的树的树木数
 int CanBurnNum = 0;
 //记录火的坐标
-int fireMap[50][2] = { 0 };
+int fireMap[50][2] = {0};
 //记录火的个数
 int fireNum = 0;
 //剩余最少的树木数
@@ -49,7 +49,7 @@ int maxTree = 0;
 struct Map
 {
     //原始地图
-    int map[50][50] = { 0 };
+    int map[50][50] = {0};
     //火烧之后的剩余的树木数
     int count = 0;
     //需要砍的树的数量
@@ -74,6 +74,7 @@ private:
     int rear = -1;
     int front = -1;
     int size = 0;
+
 public:
     void add(Map m)
     {
@@ -107,7 +108,7 @@ public:
     }
     bool isFull()
     {
-        //cout<<size<<endl;
+        // cout<<size<<endl;
         return size == MaxSize;
     }
     bool isEmpty()
@@ -146,7 +147,7 @@ int getCount(Map m)
 //获取地图中着火的位置坐标
 void getfire(Map m)
 {
-    for (int i=0;i<height;i++)
+    for (int i = 0; i < height; i++)
         for (int j = 0; j < width; j++)
         {
             if (m.map[i][j] == 2)
@@ -159,7 +160,7 @@ void getfire(Map m)
 }
 
 //模拟火向四周进行燃烧蔓延的情况
-void dfs(Map& m, int i, int j)
+void dfs(Map &m, int i, int j)
 {
     if (i >= height || j >= width || i < 0 || j < 0)
         return;
@@ -200,7 +201,7 @@ int bfs(Map m)
     q.add(m);
     while (!q.isEmpty())
     {
-        
+
         Map temp = q.getFront();
         Map fatherMap = q.getFront();
         q.del();
@@ -216,8 +217,8 @@ int bfs(Map m)
         {
             //当一棵树也不砍时，就是火灾后剩余树数量最少情况
             minTree = getCount(temp);
-            //cout << "一颗树不砍情况下剩余树的数量: " << minTree << endl;
-            //cout << "一颗树不砍情况下被火烧的树的数量" << CanBurnNum << endl;
+            // cout << "一颗树不砍情况下剩余树的数量: " << minTree << endl;
+            // cout << "一颗树不砍情况下被火烧的树的数量" << CanBurnNum << endl;
         }
         else
         {
@@ -229,7 +230,7 @@ int bfs(Map m)
         }
 
         //结束条件，砍2棵树的情况全都遍历完。
-        if (q.getSize()==0&&temp.killTree==2)
+        if (q.getSize() == 0 && temp.killTree == 2)
         {
             //如果砍1棵树或者砍2颗树的情况比不砍树的情况差时，就返回-1，否则返回最好情况。
             if (maxTree <= minTree)
@@ -239,14 +240,14 @@ int bfs(Map m)
         }
 
         for (int i1 = 0; i1 < CanBurnNum; i1++)
-        {   //砍掉可以燃烧的树同时防止重复砍同一棵树
+        { //砍掉可以燃烧的树同时防止重复砍同一棵树
             int x = canBrun[i1][0], y = canBrun[i1][1];
             if (fatherMap.map[x][y] != 0)
             {
                 Map sonMap = fatherMap;
                 sonMap.map[x][y] = 0;
                 sonMap.killTree++;
-                if (!q.find_Map(sonMap)&&sonMap.killTree<=2)
+                if (!q.find_Map(sonMap) && sonMap.killTree <= 2)
                 {
                     q.add(sonMap);
                 }
@@ -314,11 +315,11 @@ case 3:
 1 0 1 1 0 0 0
 1 0 0 | 1 0 0
 0 1 <-2-> 0 1
-0 1 0 | 0 1 0 
+0 1 0 | 0 1 0
  第二个是问题是砍树问题，最多砍二棵树，即可以砍0棵树，砍一棵树，砍两颗树，
  由于砍n+1棵树时地图状态跟砍n棵树时地图状态有关，这符合BFS的特性。
     0           0  --------->砍0棵树的情况
-    |          / \  
+    |          / \
     |         /   \
     |        / ... \
     1       1       1  ------> 砍1棵树的情况

@@ -1,12 +1,12 @@
-#include<iostream>
-#include<stdlib.h>
+#include <iostream>
+#include <stdlib.h>
 using namespace std;
-char map[8][8] = { '.' };
-//n是棋盘规格，k是棋子数量
+char map[8][8] = {'.'};
+// n是棋盘规格，k是棋子数量
 int n = 0, k = 0;
 int nums = 0;
 
-int DFS(int col,int m)
+int DFS(int col, int m)
 {
     //棋子都放完
     if (m == k)
@@ -14,7 +14,7 @@ int DFS(int col,int m)
         return 1;
     }
     //限制在一行进行操作，一行一行进行操作
-    int t = n - k + m + 1,res=0;
+    int t = n - k + m + 1, res = 0;
     for (int i = col; i < t; i++)
     {
         for (int j = 0; j < n; j++)
@@ -22,9 +22,8 @@ int DFS(int col,int m)
             if (map[i][j] == '#')
             {
                 map[i][j] = '.';
-                res += DFS(i + 1, m + 1) ;
+                res += DFS(i + 1, m + 1);
                 map[i][j] = '#';
-               
             }
         }
     }
@@ -46,10 +45,10 @@ int main()
             break;
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++)
-                cin >> map[i][j];  
-        int t =DFS(0,0);
-        //cout << "tesy" << endl;
-        
+                cin >> map[i][j];
+        int t = DFS(0, 0);
+        // cout << "tesy" << endl;
+
         cout << t << endl;
     }
     return 0;

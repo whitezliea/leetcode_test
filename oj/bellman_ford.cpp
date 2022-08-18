@@ -3,24 +3,26 @@
 #include <bits/stdc++.h>
 
 // a structure to represent a weighted edge in graph
-struct Edge {
+struct Edge
+{
 	int src, dest, weight;
 };
 
 // a structure to represent a connected, directed and
 // weighted graph
-struct Graph {
+struct Graph
+{
 	// V-> Number of vertices, E-> Number of edges
 	int V, E;
 
 	// graph is represented as an array of edges.
-	struct Edge* edge;
+	struct Edge *edge;
 };
 
 // Creates a graph with V vertices and E edges
-struct Graph* createGraph(int V, int E)
+struct Graph *createGraph(int V, int E)
 {
-	struct Graph* graph = new Graph;
+	struct Graph *graph = new Graph;
 	graph->V = V;
 	graph->E = E;
 	graph->edge = new Edge[E];
@@ -38,7 +40,7 @@ void printArr(int dist[], int n)
 // The main function that finds shortest distances from src
 // to all other vertices using Bellman-Ford algorithm. The
 // function also detects negative weight cycle
-void BellmanFord(struct Graph* graph, int src)
+void BellmanFord(struct Graph *graph, int src)
 {
 	int V = graph->V;
 	int E = graph->E;
@@ -53,13 +55,14 @@ void BellmanFord(struct Graph* graph, int src)
 	// Step 2: Relax all edges |V| - 1 times. A simple
 	// shortest path from src to any other vertex can have
 	// at-most |V| - 1 edges
-	for (int i = 1; i <= V - 1; i++) {
-		for (int j = 0; j < E; j++) {
+	for (int i = 1; i <= V - 1; i++)
+	{
+		for (int j = 0; j < E; j++)
+		{
 			int src = graph->edge[j].src;
 			int dst = graph->edge[j].dest;
 			int weight = graph->edge[j].weight;
-			if (dist[src] != INT_MAX
-				&& dist[src] + weight < dist[dst])
+			if (dist[src] != INT_MAX && dist[src] + weight < dist[dst])
 				dist[dst] = dist[src] + weight;
 		}
 	}
@@ -68,12 +71,13 @@ void BellmanFord(struct Graph* graph, int src)
 	// step guarantees shortest distances if graph doesn't
 	// contain negative weight cycle. If we get a shorter
 	// path, then there is a cycle.
-	for (int i = 0; i < E; i++) {
+	for (int i = 0; i < E; i++)
+	{
 		int src = graph->edge[i].src;
 		int dst = graph->edge[i].dest;
 		int weight = graph->edge[i].weight;
-		if (dist[src] != INT_MAX
-			&& dist[src] + weight < dist[dst]) {
+		if (dist[src] != INT_MAX && dist[src] + weight < dist[dst])
+		{
 			printf("Graph contains negative weight cycle");
 			return; // If negative cycle is detected, simply
 					// return
@@ -91,7 +95,7 @@ int main()
 	/* Let us create the graph given in above example */
 	int V = 5; // Number of vertices in graph
 	int E = 8; // Number of edges in graph
-	struct Graph* graph = createGraph(V, E);
+	struct Graph *graph = createGraph(V, E);
 
 	// add edge 0-1 (or A-B in above figure)
 	graph->edge[0].src = 0;

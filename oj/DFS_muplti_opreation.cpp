@@ -1,14 +1,13 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
-int datas[11]={0}; //存储数组
-int N;//输入数的个数
-int Ans;//所求答案
-int equal_index ; //等号坐标
+int datas[11] = {0}; //存储数组
+int N;               //输入数的个数
+int Ans;             //所求答案
+int equal_index;     //等号坐标
 
-
-void dfs(int index,int left_value,int right_value)
+void dfs(int index, int left_value, int right_value)
 {
-    if ( left_value == right_value && index == N-1)
+    if (left_value == right_value && index == N - 1)
     {
         Ans++;
         return;
@@ -16,23 +15,22 @@ void dfs(int index,int left_value,int right_value)
 
     if (index == N - 1)
     {
-        return ;
+        return;
     }
 
     if (index < equal_index) // 等号左边做计算
     {
-        dfs(index+1,left_value+datas[index],right_value);
-        dfs(index+1,left_value*datas[index],right_value);
-        dfs(index+1,left_value%datas[index],right_value);
+        dfs(index + 1, left_value + datas[index], right_value);
+        dfs(index + 1, left_value * datas[index], right_value);
+        dfs(index + 1, left_value % datas[index], right_value);
     }
 
     if (index >= equal_index) // 等号左边做计算
     {
-        dfs(index+1,left_value,right_value+datas[index+1]);
-        dfs(index+1,left_value,right_value*datas[index+1]);
-        dfs(index+1,left_value,right_value%datas[index+1]);
+        dfs(index + 1, left_value, right_value + datas[index + 1]);
+        dfs(index + 1, left_value, right_value * datas[index + 1]);
+        dfs(index + 1, left_value, right_value % datas[index + 1]);
     }
-
 }
 /*
 eg:
@@ -44,21 +42,20 @@ datas      2 8 5 1 10
     -->   2%8*2=1*10
 */
 
-
 void solution()
 {
-    for (int i=1;i<=N-1;i++)
+    for (int i = 1; i <= N - 1; i++)
     {
         equal_index = i;
-        int left_value = datas[0],right_value = datas[i];
-        dfs(1,left_value,right_value);
+        int left_value = datas[0], right_value = datas[i];
+        dfs(1, left_value, right_value);
     }
 }
 
 void input()
 {
     cin >> N;
-    for (int i=0;i<N;i++)
+    for (int i = 0; i < N; i++)
     {
         cin >> datas[i];
     }
@@ -68,7 +65,7 @@ int main()
 {
     input();
     solution();
-    cout<<"Ans: "<<Ans<<endl;
+    cout << "Ans: " << Ans << endl;
 }
 /*
 5

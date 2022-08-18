@@ -31,23 +31,23 @@ type 7  ---->  --0    特性：可以与左和上两个方向的积木进行连�
 数组总结，注意数组横向递增方向与竖向递增方向
 向下数字增加，向右数字增加
 */
-#include<iostream>
-#include<stdio.h>
-#include<malloc.h>
+#include <iostream>
+#include <stdio.h>
+#include <malloc.h>
 using namespace std;
-int map[50][100] = { 0 };
+int map[50][100] = {0};
 struct Node
 {
-    int  endstep = 0, type = 0;
-}maze[50][100];
+    int endstep = 0, type = 0;
+} maze[50][100];
 int vaild[7][4] = {
-    {1,-1,-1,1},  //上下左右 --type 1
-    {1,-1,0,0},   //上下   --type 2
-    {0,0,-1,1},  //左右    --type 3
-    {1,0,-1,0},  //下左  --type 4
-    {1,0,0,1} ,  //下右  --type 5
-    {0,-1,0,1},  //上右    --type 6
-    {0,-1,-1,0}   //上左   --type 7
+    {1, -1, -1, 1}, //上下左右 --type 1
+    {1, -1, 0, 0},  //上下   --type 2
+    {0, 0, -1, 1},  //左右    --type 3
+    {1, 0, -1, 0},  //下左  --type 4
+    {1, 0, 0, 1},   //下右  --type 5
+    {0, -1, 0, 1},  //上右    --type 6
+    {0, -1, -1, 0}  //上左   --type 7
 };
 //上下对x操作，左右对y操作
 bool my_abs(int x, int y)
@@ -57,7 +57,7 @@ bool my_abs(int x, int y)
 bool isVaild(int sx, int sy, int nx, int ny)
 {
     cout << sx << " " << sy << "->" << nx << " " << ny << ",";
-    cout << maze[sx][sy].type  << " " << maze[nx][ny].type  << endl;
+    cout << maze[sx][sy].type << " " << maze[nx][ny].type << endl;
     if (!my_abs(sx, nx))
     {
         for (int i1 = 0; i1 < 2; i1++)
@@ -77,7 +77,7 @@ bool isVaild(int sx, int sy, int nx, int ny)
 
 int main()
 {
-    int sx = 0, sy = 0, nx = 0, ny = 0,t1=0,t2=0;
+    int sx = 0, sy = 0, nx = 0, ny = 0, t1 = 0, t2 = 0;
     cin >> sx >> sy >> t1;
     cin >> nx >> ny >> t2;
     maze[sx][sy].type = t1;
