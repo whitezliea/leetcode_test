@@ -89,7 +89,7 @@ void InsertSort(int a[], int n)
 {
     for (int i = 1; i < n; i++)
     {
-        if (a[i] < a[i - 1])
+        if (a[i] < a[i - 1]) // 前值 > 后值
         {
             int temp = a[i];
             int j = i - 1;
@@ -134,7 +134,7 @@ int main()
     int a3[n] = {5, 4, 2, 1, 6, 7, 9, 8, 10, 3};
     SelectSort(a3, n);
     display(a3, n);
-
+    system("pause");
     return 0;
 }
 /*
